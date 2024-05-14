@@ -105,6 +105,28 @@ OWN* lowl_insert_right(LOWL* list, float hodnota) {
 	return newuzol;
 }
 
+char lowl_delete(LOWL * list){
+	if (list == NULL || list->zac == NULL) {
+		return 'P';
+	}
+
+	if (list->potocny == list->zac) {
+		OWN* temp = list->zac;
+		list->zac = list->zac->next;
+		free(temp);
+		list->potocny = list->zac;
+	}
+	else {
+		while (list->zac->next != list->potocny)
+			list->zac = list->zac->next;
+		list->zac->next = list->potocny->next;
+		free(list->potocny);
+		list->potocny = list->zac->next;
+	}
+
+	return 'U';
+}
+
 int main() {
 
 	return 0;
