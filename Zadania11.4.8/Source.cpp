@@ -154,6 +154,22 @@ LOWL* lowl_create_empty(void) {
 	return newlist;
 }
 
+LOWL* lowl_create_random(unsigned int size) {
+	LOWL* newlist = lowl_create_empty();
+	if (newlist == NULL) {
+		return NULL;
+	}
+
+	for (unsigned int i = 0; i < size; i++){
+		float randomH = (float)rand() / RAND_MAX;
+		lowl_insert_right(newlist, randomH);
+		if (newlist->potocny == NULL) {
+			newlist->potocny = newlist->zac;
+		}
+	}
+	return newlist;
+}
+
 int main() {
 
 	return 0;
