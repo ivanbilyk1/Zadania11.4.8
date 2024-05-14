@@ -127,6 +127,22 @@ char lowl_delete(LOWL * list){
 	return 'U';
 }
 
+char lowl_print(LOWL* list) {
+	if (list == NULL || list->zac == NULL) {
+		printf("list je prazdny");
+		return;
+	}
+
+	while (list->zac != NULL) {
+		if (list->zac == list->potocny)
+			printf("[%f] ", list->zac->data);
+		else
+			printf("%f ", list->zac->data);
+		list->zac = list->zac->next;
+	}
+	printf("\n");
+}
+
 int main() {
 
 	return 0;
