@@ -143,6 +143,17 @@ char lowl_print(LOWL* list) {
 	printf("\n");
 }
 
+LOWL* lowl_create_empty(void) {
+	LOWL* newlist = (LOWL*)malloc(sizeof(LOWL));
+
+	if (newlist == NULL) {
+		return NULL;
+	}
+	newlist->zac = NULL;
+	newlist->potocny = NULL;
+	return newlist;
+}
+
 int main() {
 
 	return 0;
