@@ -170,6 +170,19 @@ LOWL* lowl_create_random(unsigned int size) {
 	return newlist;
 }
 
+void lowl_destroi(LOWL* list) {
+	if (list == NULL) {
+		return;
+	}
+	OWN* current = list->zac;
+	while (current != NULL) {
+		OWN* temp = current;
+		current = current->next;
+		free(temp);
+	}
+	free(list);
+}
+
 int main() {
 
 	return 0;
