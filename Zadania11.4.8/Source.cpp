@@ -7,7 +7,8 @@ typedef struct OWN{
 }OWN;
 
 typedef struct {
-
+	OWN* zac;
+	OWN* potocny;
 }LOWL;
 
 char lowl_interpolate_linear(LOWL* list) {
