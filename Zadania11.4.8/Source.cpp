@@ -2,6 +2,9 @@
 #include "stdlib.h"
 #include "time.h"
 
+#define LOWL_PROBLEM 0
+#define LOWL_OK 1
+
 typedef struct OWN{ //OWN: štruktúra, ktorá predstavuje uzol zoznamu.
 	float data;
 	struct OWN* next;
@@ -14,25 +17,27 @@ typedef struct { //LOWL: štruktúra, ktorá predstavuje samotný zoznam.
 
 char lowl_interpolate_linear(LOWL* list);//Vykoná lineárnu interpoláciu medzi každými dvoma uzlami zoznamu.
 char lowl_cur_step_right(LOWL* list);
-OWN* lowl_insert_right(LOWL* list, float val);
 void lowl_print(LOWL* list, const char* msg);//Vytlačí položky zoznamu
 LOWL* lowl_create_empty(void);//Vytvorí prázdny zoznam a pridelí mu pamäť.
 LOWL* lowl_create_random(unsigned int size);//Vytvorí zoznam s náhodnými hodnotami zadanej veľkosti.
-void lowl_destroi(LOWL* list);////Vymaže zoznam a uvoľní pamäť.
+void lowl_destroi(LOWL* list);//Vymaže zoznam a uvoľní pamäť.
 
 char lowl_interpolate_linear(LOWL* list) {
 	if (list == NULL || list->zac == NULL || list->zac->next == NULL) {
-		return 'N';//nedostatok uzlov na interpoláciu
+		return LOWL_PROBLEM;//nedostatok uzlov na interpoláciu
 	}
 
 	OWN* curr = list->zac;
+	OWN* original_potocny = list->potocny;
 	int step = 0;
 	while (curr->next != NULL && curr != NULL) {
 		float interpolated = (curr->data + curr->next->data) / 2.0f;
 
 		OWN* newuzol = (OWN*)malloc(sizeof(OWN));
-		if (newuzol ==NULL)
-			return 'M';
+		if (newuzol == NULL) {
+			list->potocny = original_potocny;
+			return LOWL_PROBLEM;
+		}
 
 		newuzol->data = interpolated;
 		newuzol->next = curr->next;
@@ -40,23 +45,13 @@ char lowl_interpolate_linear(LOWL* list) {
 
 		curr = newuzol->next;
 
-
 		char ms[100];
 		snprintf(ms, sizeof(ms), "Step interpolation %d", ++step);
 		lowl_print(list, ms);
 	}
 
-	return 'U';//Uspeh
-}
-
-char lowl_cur_step_right(LOWL* list) {
-	if (list == NULL || list->zac == NULL || list->potocny == NULL || list->potocny->next == NULL) {
-		return 'P';//kurzor je už na začiatku alebo je zoznam prázdny
-	}
-
-	list->potocny = list->potocny->next;
-
-	return 'U';
+	list->potocny = original_potocny;
+	return LOWL_OK;
 }
 
 OWN* lowl_insert_right(LOWL* list, float hodnota) {
@@ -150,17 +145,13 @@ int main() {
 	lowl_print(list, "Zacatocny zoznam");
 
 	char result = lowl_interpolate_linear(list);
-	if (result != 'U') {
+	if (result == LOWL_PROBLEM) {
 		printf("chyba pri interpolacii %c\n", result);
 	}
-	else {
-		list->potocny = list->zac;
-		while (list->potocny->next != NULL) {
-			list->potocny = list->potocny->next;
-		}
+	else if(result == LOWL_OK) {
 		lowl_print(list, "final zoznam");
+		printf("Current cursor: %f\n", list->potocny->data);
 	}
-
 	lowl_destroi(list);
 	return 0;
 }
