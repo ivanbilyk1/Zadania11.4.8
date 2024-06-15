@@ -1,26 +1,4 @@
-﻿#include "stdio.h"
-#include "stdlib.h"
-#include "time.h"
-
-#define LOWL_PROBLEM 0
-#define LOWL_OK 1
-
-typedef struct OWN{ //OWN: štruktúra, ktorá predstavuje uzol zoznamu.
-	float data;
-	struct OWN* next;
-}OWN;
-
-typedef struct { //LOWL: štruktúra, ktorá predstavuje samotný zoznam.
-	OWN* zac;
-	OWN* potocny;
-}LOWL;
-
-char lowl_interpolate_linear(LOWL* list);//Vykoná lineárnu interpoláciu medzi každými dvoma uzlami zoznamu.
-char lowl_cur_step_right(LOWL* list);
-void lowl_print(LOWL* list, const char* msg);//Vytlačí položky zoznamu
-LOWL* lowl_create_empty(void);//Vytvorí prázdny zoznam a pridelí mu pamäť.
-LOWL* lowl_create_random(unsigned int size);//Vytvorí zoznam s náhodnými hodnotami zadanej veľkosti.
-void lowl_destroi(LOWL* list);//Vymaže zoznam a uvoľní pamäť.
+﻿#include "Zadanie11.4.8.h"
 
 char lowl_interpolate_linear(LOWL* list) {
 	if (list == NULL || list->zac == NULL || list->zac->next == NULL) {
@@ -44,10 +22,6 @@ char lowl_interpolate_linear(LOWL* list) {
 		curr->next = newuzol;
 
 		curr = newuzol->next;
-
-		char ms[100];
-		snprintf(ms, sizeof(ms), "Step interpolation %d", ++step);
-		lowl_print(list, ms);
 	}
 
 	list->potocny = original_potocny;
@@ -125,7 +99,7 @@ LOWL* lowl_create_random(unsigned int size) {
 	return newlist;
 }
 
-void lowl_destroi(LOWL* list) {
+void lowl_destroy(LOWL* list) {
 	if (list == NULL) {
 		return;
 	}
@@ -136,22 +110,4 @@ void lowl_destroi(LOWL* list) {
 		free(temp);
 	}
 	free(list);
-}
-
-int main() {
-	srand(time(NULL));
-
-	LOWL* list = lowl_create_random(6);
-	lowl_print(list, "Zacatocny zoznam");
-
-	char result = lowl_interpolate_linear(list);
-	if (result == LOWL_PROBLEM) {
-		printf("chyba pri interpolacii %c\n", result);
-	}
-	else if(result == LOWL_OK) {
-		lowl_print(list, "final zoznam");
-		printf("Current cursor: %f\n", list->potocny->data);
-	}
-	lowl_destroi(list);
-	return 0;
 }
