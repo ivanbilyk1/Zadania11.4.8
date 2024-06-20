@@ -52,6 +52,20 @@ char lowl_cur_step_right(LOWL* list) {
 	return LOWL_OK;
 }
 
+char lowl_cur_step_left(LOWL* list) {
+	if (list == NULL || list->zac == NULL || list->potocny == NULL || list->potocny == list->zac) {
+		return LOWL_PROBLEM;
+	}
+
+	OWN* prev = list->zac;
+	while (prev->next != list->potocny) {
+		prev = prev->next;
+	}
+
+	list->potocny = prev;
+	return LOWL_OK;
+}
+
 void lowl_print(LOWL* list, const char* ms) {
 	if (list == NULL || list->zac == NULL) {
 		printf("list je prazdny");

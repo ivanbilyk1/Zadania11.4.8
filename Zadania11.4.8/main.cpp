@@ -15,6 +15,12 @@ int main() {
 	}
 	printf("\n");
 
+	printf("move cursor to left:\n");
+	while (lowl_cur_step_left(list) == LOWL_OK) {
+		printf("Current cursor: %f\n", list->potocny->data);
+	}
+	printf("\n");
+
 	char result = lowl_interpolate_linear(list);
 	if (result == LOWL_PROBLEM) {
 		printf("chyba pri interpolacii %c\n", result);
