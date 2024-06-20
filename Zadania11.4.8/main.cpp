@@ -6,6 +6,15 @@ int main() {
 	LOWL* list = lowl_create_random(6);
 	lowl_print(list, "Zacatocny zoznam");
 
+	printf("Current cursor: %f\n", list->potocny->data);
+	printf("\n");
+
+	printf("move cursor to right:\n");
+	while (lowl_cur_step_right(list) == LOWL_OK) {
+		printf("Current cursor: %f\n", list->potocny->data);
+	}
+	printf("\n");
+
 	char result = lowl_interpolate_linear(list);
 	if (result == LOWL_PROBLEM) {
 		printf("chyba pri interpolacii %c\n", result);

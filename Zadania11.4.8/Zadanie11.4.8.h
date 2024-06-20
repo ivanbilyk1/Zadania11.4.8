@@ -18,6 +18,9 @@ typedef struct { //LOWL: štruktúra, ktorá predstavuje samotný zoznam.
 char lowl_interpolate_linear(LOWL* list);//Vykoná lineárnu interpoláciu medzi každými dvoma uzlami zoznamu.
 void lowl_print(LOWL* list, const char* msg);//Vytlačí položky zoznamu
 OWN* lowl_insert_right(LOWL* list, float hodnota);
+OWN* lowl_insert_left(LOWL* list, float hodnota);
+char lowl_cur_step_left(LOWL* list);
+char lowl_cur_step_right(LOWL* list);
 LOWL* lowl_create_empty(void);//Vytvorí prázdny zoznam a pridelí mu pamäť.
 LOWL* lowl_create_random(unsigned int size);//Vytvorí zoznam s náhodnými hodnotami zadanej veľkosti.
 void lowl_destroy(LOWL* list);//Vymaže zoznam a uvoľní pamäť.

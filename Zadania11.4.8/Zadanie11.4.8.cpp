@@ -10,18 +10,9 @@ char lowl_interpolate_linear(LOWL* list) {
 	int step = 0;
 	while (curr->next != NULL && curr != NULL) {
 		float interpolated = (curr->data + curr->next->data) / 2.0f;
-
-		OWN* newuzol = (OWN*)malloc(sizeof(OWN));
-		if (newuzol == NULL) {
-			list->potocny = original_potocny;
-			return LOWL_PROBLEM;
-		}
-
-		newuzol->data = interpolated;
-		newuzol->next = curr->next;
-		curr->next = newuzol;
-
-		curr = newuzol->next;
+		list->potocny = curr;
+		lowl_insert_right(list, interpolated);
+		curr = list->potocny->next->next;
 	}
 
 	list->potocny = original_potocny;
@@ -50,6 +41,15 @@ OWN* lowl_insert_right(LOWL* list, float hodnota) {
 		list->potocny->next = newuzol;
 	}
 	return newuzol;
+}
+
+char lowl_cur_step_right(LOWL* list) {
+	if (list == NULL || list->zac == NULL || list->potocny == NULL || list->potocny->next == NULL) {
+		return LOWL_PROBLEM;
+	}
+
+	list->potocny = list->potocny->next;
+	return LOWL_OK;
 }
 
 void lowl_print(LOWL* list, const char* ms) {
