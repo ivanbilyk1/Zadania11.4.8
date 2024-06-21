@@ -21,6 +21,12 @@ int main() {
 	}
 	printf("\n");
 
+	printf("Add value to left of cursor:\n");
+	list->potocny = list->zac;
+	lowl_insert_left(list, 0.5f);
+	lowl_print(list, "After operation:");
+	printf("\n");
+
 	char result = lowl_interpolate_linear(list);
 	if (result == LOWL_PROBLEM) {
 		printf("chyba pri interpolacii %c\n", result);
